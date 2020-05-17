@@ -6,7 +6,7 @@ COMMON: &common #标识
   DEFAULT_PAGE_SIZE: 10
 
   # 数据库连接
-  SQLALCHEMY_DATABASE_URI: 'mysql+pymysql://root:ad68138398ad@127.0.0.1:3306/wiz_wxapp?charset=utf8mb4'
+  SQLALCHEMY_DATABASE_URI: 'mysql+pymysql://root:mysql@127.0.0.1:3306/nicead?charset=utf8mb4'
   # SQLALCHEMY_DATABASE_URI: 'sqlite:///app.db'
   SQLALCHEMY_TRACK_MODIFICATIONS: False
   # 日志配置文件路径

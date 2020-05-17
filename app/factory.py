@@ -8,7 +8,6 @@ from flask import Flask, Blueprint
 from app.celery import celery_app
 
 from app.utils.core import JSONEncoder, db, scheduler
-from app.api.router import router
 from flask_migrate import Migrate, MigrateCommand
 from app.api import bp as api_bp
 from app.utils.email import mail
