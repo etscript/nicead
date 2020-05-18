@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.utils.core import db
 from datetime import datetime, timedelta
-from flask import current_app
+from flask import current_app, url_for
 from hashlib import md5
 import jwt
 
@@ -36,7 +36,7 @@ class User(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     name = db.Column(db.String(64), index=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    email = db.Column(db.String(120), index=True)
     password_hash = db.Column(db.String(128))  # 不保存原始密码
     location = db.Column(db.String(64))
     # about_me = db.Column(db.Text())
@@ -76,7 +76,7 @@ class User(PaginatedAPIMixin, db.Model):
         for field in ['username', 'email', 'name', 'location']:
             if field in data:
                 setattr(self, field, data[field])
-        if new_user and 'password' in data:
+        if 'password' in data:
             self.set_password(data['password'])
 
     def ping(self):

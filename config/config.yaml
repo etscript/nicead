@@ -90,6 +90,9 @@ COMMON: &common #标识
   complete_counts: 200
   complete_price: 0.1
 
+  # 用户分页
+  USERS_PER_PAGE: 10
+
 
 
 DEVELOPMENT: &development

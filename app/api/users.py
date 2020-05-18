@@ -34,61 +34,62 @@ def get_users():
         request.args.get(
             'per_page', current_app.config['USERS_PER_PAGE'], type=int), 100)
     data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
-    return jsonify(data)
+    return ResMsg(data=data).data
 
 
 @bp.route('/users/<int:id>', methods=['GET'])
-@token_auth.login_required
+# @token_auth.login_required
 def get_user(id):
     '''返回一个用户'''
     user = User.query.get_or_404(id)
-    if g.current_user == user:
-        return jsonify(user.to_dict(include_email=True))
+    # if g.current_user == user:
+    #     return jsonify(user.to_dict(include_email=True))
     # 如果是查询其它用户，添加 是否已关注过该用户 的标志位
     data = user.to_dict()
-    data['is_following'] = g.current_user.is_following(user)
-    return jsonify(data)
+    data["jwt"] = user.get_jwt()
+    return ResMsg(data=data).data
 
 
 @bp.route('/users/<int:id>', methods=['PUT'])
-@token_auth.login_required
+# @token_auth.login_required
 def update_user(id):
     '''修改一个用户'''
     user = User.query.get_or_404(id)
     data = request.get_json()
     if not data:
-        return bad_request('You must post JSON data.')
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code=code, data='You must post JSON data.').data
 
     message = {}
     if 'username' in data and not data.get('username', None).strip():
-        message['username'] = 'Please provide a valid username.'
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code=code, data='Please provide a valid username.').data
 
     pattern = '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
     if 'email' in data and not re.match(pattern, data.get('email', None)):
-        message['email'] = 'Please provide a valid email address.'
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code=code, data='Please provide a valid email address.').data
 
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
-        message['username'] = 'Please use a different username.'
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code=code, data='Please use a different username.').data
     if 'email' in data and data['email'] != user.email and \
             User.query.filter_by(email=data['email']).first():
-        message['email'] = 'Please use a different email address.'
-
-    if message:
-        return bad_request(message)
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code=code, data='Please use a different email address.').data
 
     user.from_dict(data, new_user=False)
     db.session.commit()
-    return jsonify(user.to_dict())
-
+    return ResMsg(data=user.to_dict()).data
 
 @bp.route('/users/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+# @token_auth.login_required
 def delete_user(id):
     '''删除一个用户'''
     user = User.query.get_or_404(id)
-    if g.current_user != user:
-        return error_response(403)
+    # if g.current_user != user:
+    #     return error_response(403)
     db.session.delete(user)
     db.session.commit()
     return '', 204

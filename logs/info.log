@@ -1949,3 +1949,163 @@ Fetching access token
  * Debugger is active!
  * Debugger PIN: 853-269-254
 127.0.0.1 - - [11/Apr/2020 17:56:10] "GET /api/orders HTTP/1.1" 500 -
+ * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 21:48:52] "POST /api/users HTTP/1.1" 404 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/__init__.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 21:49:09] "POST /api/users HTTP/1.1" 500 -
+127.0.0.1 - - [18/May/2020 21:49:16] "POST /api/users/ HTTP/1.1" 200 -
+ * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:04:26] "POST /api/users/ HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:04:28] "POST /api/users/ HTTP/1.1" 500 -
+127.0.0.1 - - [18/May/2020 22:04:41] "POST /api/users/ HTTP/1.1" 500 -
+127.0.0.1 - - [18/May/2020 22:04:44] "POST /api/users/ HTTP/1.1" 500 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/models/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:05:22] "POST /api/users/ HTTP/1.1" 500 -
+ * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:05:49] "POST /api/users/ HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:05:59] "POST /api/users/ HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:11:19] "GET /api/users/ HTTP/1.1" 500 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/models/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:11:55] "GET /api/users/ HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:17:20] "GET /api/users/?page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:17:23] "GET /api/users/?page=2 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:17:28] "GET /api/users/?page=1 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:17:48] "GET /api/users/?page=1&per_page=2 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:17:55] "GET /api/users/?page=2&per_page=2 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:20:14] "GET /api/users/2 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:20:17] "GET /api/users/3 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:20:18] "GET /api/users/4 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:20:19] "GET /api/users/5 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:20:20] "GET /api/users/6 HTTP/1.1" 500 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:20:37] "GET /api/users/6 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:20:53] "GET /api/users/5 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:21:03] "GET /api/users/6 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/models/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:27:31] "PUT /api/users/7 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:27:57] "PUT /api/users/7 HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 22:28:16] "PUT /api/users/7 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/models/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/models/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:29:34] "PUT /api/users/7 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:30:20] "PUT /api/users/7 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:31:11] "DELETE /api/users/7 HTTP/1.1" 401 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 22:31:17] "DELETE /api/users/7 HTTP/1.1" 204 -
+127.0.0.1 - - [18/May/2020 22:31:30] "GET /api/users/7 HTTP/1.1" 404 -
+127.0.0.1 - - [18/May/2020 22:31:32] "GET /api/users/6 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/utils/auth.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 23:39:35] "GET /api/users/6 HTTP/1.1" 200 -
+ * Detected change in '/Users/wang/Desktop/ad-system/nicead/app/api/users.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 929-628-506
+127.0.0.1 - - [18/May/2020 23:41:14] "GET /api/users HTTP/1.1" 308 -
+127.0.0.1 - - [18/May/2020 23:41:14] "GET /api/users/ HTTP/1.1" 401 -
+127.0.0.1 - - [18/May/2020 23:43:18] "GET /api/users HTTP/1.1" 308 -
+127.0.0.1 - - [18/May/2020 23:43:18] "GET /api/users/ HTTP/1.1" 200 -
+127.0.0.1 - - [18/May/2020 23:43:31] "GET /api/users/ HTTP/1.1" 200 -
