@@ -43,6 +43,7 @@ class User(PaginatedAPIMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
+    remark = db.Column(db.Text())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -66,7 +67,9 @@ class User(PaginatedAPIMixin, db.Model):
             'username': self.username,
             'name': self.name,
             'email': self.email,
+            'remark': self.remark,
             'location': self.location,
+            'department_id': self.department_id,
             # 'about_me': self.about_me,
             'member_since': self.member_since.isoformat() + 'Z',
             'last_seen': self.last_seen.isoformat() + 'Z'
@@ -74,7 +77,7 @@ class User(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username', 'email', 'name', 'location']:
+        for field in ['username', 'email', 'name', 'location', 'department', 'remark']:
             if field in data:
                 setattr(self, field, data[field])
         if 'password' in data:
@@ -84,6 +87,9 @@ class User(PaginatedAPIMixin, db.Model):
         '''更新用户的最后访问时间'''
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+    
+    def get(self, field):
+        return getattr(self, field)
 
     def get_jwt(self, expires_in=3600):
         '''用户登录后，发放有效的 JWT'''
@@ -271,7 +277,7 @@ class Department(PaginatedAPIMixin, db.Model):
     members = db.relationship('User', backref='department', lazy='dynamic',
                                cascade='all, delete-orphan')
     active = db.Column(db.Boolean, default=True)
-    role = db.Column(db.Text)
+    auth = db.Column(db.Text)
 
     def __repr__(self):
         return '<Department {}>'.format(self.id)
@@ -284,11 +290,14 @@ class Department(PaginatedAPIMixin, db.Model):
             'describe': self.describe,
             'members_count': self.members.count(),
             'active': self.active,
-            'role': self.role
+            'auth': self.auth
         }
         return data
+    
+    def get(self, field):
+        return getattr(self, field)
 
     def from_dict(self, data):
-        for field in ['name', 'describe', 'role']:
+        for field in ['name', 'describe', 'auth']:
             if field in data:
                 setattr(self, field, data[field])

@@ -4,12 +4,12 @@ from flask import request, jsonify, url_for, g, current_app
 from app.utils.core import db
 from app.utils.code import ResponseCode
 from app.utils.response import ResMsg
-from app.models.model import User
+from app.models.model import User, Department
 import logging
 from app.api import bp
 logger = logging.getLogger(__name__)
 
-@bp.route('/login', methods=['POST'])
+@bp.route('/login/', methods=['POST'])
 def login():
     """
     用户登录
@@ -52,5 +52,6 @@ def login():
         return ResMsg(code = code, data = '用户认证环节出错').data
     data = user.to_dict()
     data['token'] = user.get_jwt()
+    data['auth'] = Department.query.get(data['department_id']).get('auth')
     return ResMsg(data=data).data
 
