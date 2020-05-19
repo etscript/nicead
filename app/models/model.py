@@ -42,6 +42,7 @@ class User(PaginatedAPIMixin, db.Model):
     # about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -260,3 +261,34 @@ class Order(db.Model):
         # 由 @bp.app_errorhandler(404) 自动处理，即响应 JSON 数据：{ error: "Not Found" }
         # resources = query.paginate(page, per_page)
         return [item.to_dict() for item in query]
+
+class Department(PaginatedAPIMixin, db.Model):
+    __tablename__ = 'departments'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), index=True, unique=True)
+    describe = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    members = db.relationship('User', backref='department', lazy='dynamic',
+                               cascade='all, delete-orphan')
+    active = db.Column(db.Boolean, default=True)
+    role = db.Column(db.Text)
+
+    def __repr__(self):
+        return '<Department {}>'.format(self.id)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'timestamp': self.timestamp,
+            'describe': self.describe,
+            'members_count': self.members.count(),
+            'active': self.active,
+            'role': self.role
+        }
+        return data
+
+    def from_dict(self, data):
+        for field in ['name', 'describe', 'role']:
+            if field in data:
+                setattr(self, field, data[field])

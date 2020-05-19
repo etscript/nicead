@@ -5,6 +5,7 @@ import platform
 import yaml
 import os
 from flask import Flask, Blueprint
+from flasgger import Swagger
 from app.celery import celery_app
 
 from app.utils.core import JSONEncoder, db, scheduler
@@ -25,6 +26,13 @@ def create_app(config_name, config_path=None):
     # 读取配置文件
     conf = read_yaml(config_name, config_path)
     app.config.update(conf)
+
+    # 初始化swagger
+    swagger_config = Swagger.DEFAULT_CONFIG
+    swagger_config['title'] = app.config["SWAGGER_TITLE"]    # 配置大标题
+    swagger_config['description'] = app.config["SWAGGER_DESC"]    # 配置公共描述内容
+    swagger_config['host'] = app.config["SWAGGER_HOST"]    # 请求域名
+    
 
     # 更新Celery配置信息
     celery_conf = "redis://{}:{}/{}".format(app.config['REDIS_HOST'], app.config['REDIS_PORT'], app.config['REDIS_DB'])
