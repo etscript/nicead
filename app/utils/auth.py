@@ -1,7 +1,7 @@
 import jwt
 from jwt.exceptions import ExpiredSignatureError
 from datetime import datetime, timedelta
-from flask import current_app, request, session, g, jsonify
+from flask import current_app, request, session, g, jsonify, abort
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from functools import wraps
 from app.utils.code import ResponseCode
@@ -189,8 +189,8 @@ def verify_token(token):
         # 每次认证通过后（即将访问资源API），更新 last_seen 时间
         g.current_user.ping()
         db.session.commit()
-        department_id = g.current_user.get('department_id')
-        g.current_auth = Department.query.get(department_id).get('auth')
+        # department_id = g.current_user.get('department_id')
+        # g.current_auth = Department.query.get(department_id).get('auth')
     return g.current_user is not None
 
 @token_auth.error_handler
@@ -200,3 +200,14 @@ def token_auth_error():
     res.update(code=ResponseCode.PleaseSignIn)
     return res.data
         
+
+def permission_required(permission):
+    '''定义装饰器@permission_required(permission)'''
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args,**kwargs):
+            if not g.current_user.can(permission):                        #如果当前用户不具有permission则抛出403错误。
+                abort(403)
+            return f(*args,**kwargs)
+        return decorated_function
+    return decorator

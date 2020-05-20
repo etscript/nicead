@@ -3,7 +3,7 @@ from operator import itemgetter
 import re
 from flask import request, jsonify, url_for, g, current_app
 from app.api import bp
-from app.utils.auth import token_auth
+from app.utils.auth import token_auth, permission_required
 from app.utils.core import db
 from app.utils.code import ResponseCode
 from app.utils.response import ResMsg
@@ -28,6 +28,7 @@ def create_department():
 
 @bp.route('/departments/', methods=['GET'])
 @token_auth.login_required
+@permission_required({"hello":"789"})
 def get_departments():
     '''返回用户集合，分页'''
     page = request.args.get('page', 1, type=int)

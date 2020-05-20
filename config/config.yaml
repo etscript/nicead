@@ -93,6 +93,14 @@ COMMON: &common #标识
   # 用户分页
   USERS_PER_PAGE: 10
 
+  # 部门分页
+  DEPARTMENTS_PER_PAGE: 10
+
+  # Swagger配置
+  SWAGGER_TITLE: "nicead api doc"
+  SWAGGER_DESC: "nicead system api doc"
+  SWAGGER_HOST: 127.0.0.1:5001
+
 
 
 DEVELOPMENT: &development

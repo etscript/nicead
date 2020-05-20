@@ -10,6 +10,7 @@ from app.utils.response import ResMsg
 from app.models.model import User
 
 @bp.route('/users/', methods=['POST'])
+@token_auth.login_required
 def create_user():
     '''注册一个新用户'''
     data = request.get_json()
@@ -38,7 +39,7 @@ def get_users():
 
 
 @bp.route('/users/<int:id>', methods=['GET'])
-# @token_auth.login_required
+@token_auth.login_required
 def get_user(id):
     '''返回一个用户'''
     user = User.query.get_or_404(id)
@@ -51,7 +52,7 @@ def get_user(id):
 
 
 @bp.route('/users/<int:id>', methods=['PUT'])
-# @token_auth.login_required
+@token_auth.login_required
 def update_user(id):
     '''修改一个用户'''
     user = User.query.get_or_404(id)
@@ -84,7 +85,7 @@ def update_user(id):
     return ResMsg(data=user.to_dict()).data
 
 @bp.route('/users/<int:id>', methods=['DELETE'])
-# @token_auth.login_required
+@token_auth.login_required
 def delete_user(id):
     '''删除一个用户'''
     user = User.query.get_or_404(id)

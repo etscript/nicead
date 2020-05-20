@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from flask import current_app, url_for
 from hashlib import md5
 import jwt
+import json
 
 class PaginatedAPIMixin(object):
     @staticmethod
@@ -77,7 +78,7 @@ class User(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username', 'email', 'name', 'location', 'department', 'remark']:
+        for field in ['username', 'email', 'name', 'location', 'department_id', 'remark']:
             if field in data:
                 setattr(self, field, data[field])
         if 'password' in data:
@@ -120,6 +121,22 @@ class User(PaginatedAPIMixin, db.Model):
             # Token过期，或被人修改，那么签名验证也会失败
             return None
         return User.query.get(payload.get('user_id'))
+    
+    # def get_permissions(self):
+    #     self.permissions = Department.query.get(self.department_id).get("permissions")
+
+    def can(self, operate_permission):
+        print("jinru auth")
+        #这个方法用来传入一个权限来核实用户是否有这个权限,返回bool值，检查permissions要求的权限角色是否允许
+        self.permissions = Department.query.get(self.department_id).get("permissions")
+        self.permissions = json.loads(self.permissions)
+        (op_key, op_val), = operate_permission.items()
+        return op_val in self.permissions[op_key]
+        
+        
+    # def is_administrator(self):
+    #     	#因为常用所以单独写成一个方法以方便调用，其它权限也可以这样写
+    #     return self.can(Permission.ADMINISTRATOR)
 
 class UserLoginMethod(db.Model):
     """
@@ -277,7 +294,7 @@ class Department(PaginatedAPIMixin, db.Model):
     members = db.relationship('User', backref='department', lazy='dynamic',
                                cascade='all, delete-orphan')
     active = db.Column(db.Boolean, default=True)
-    auth = db.Column(db.Text)
+    permissions = db.Column(db.Text)
 
     def __repr__(self):
         return '<Department {}>'.format(self.id)
@@ -290,7 +307,7 @@ class Department(PaginatedAPIMixin, db.Model):
             'describe': self.describe,
             'members_count': self.members.count(),
             'active': self.active,
-            'auth': self.auth
+            'permissions': self.permissions
         }
         return data
     
@@ -298,6 +315,6 @@ class Department(PaginatedAPIMixin, db.Model):
         return getattr(self, field)
 
     def from_dict(self, data):
-        for field in ['name', 'describe', 'auth']:
+        for field in ['name', 'describe', 'permissions']:
             if field in data:
                 setattr(self, field, data[field])

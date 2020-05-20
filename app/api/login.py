@@ -52,6 +52,6 @@ def login():
         return ResMsg(code = code, data = '用户认证环节出错').data
     data = user.to_dict()
     data['token'] = user.get_jwt()
-    data['auth'] = Department.query.get(data['department_id']).get('auth')
+    data['permissions'] = Department.query.get(data['department_id']).get('permissions')
     return ResMsg(data=data).data
 
