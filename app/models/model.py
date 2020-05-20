@@ -39,12 +39,13 @@ class User(PaginatedAPIMixin, db.Model):
     name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True)
     password_hash = db.Column(db.String(128))  # 不保存原始密码
-    location = db.Column(db.String(64))
     # about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     remark = db.Column(db.Text())
+    operation = db.relationship('Operation', backref='operator', lazy='dynamic',
+                            cascade='all, delete-orphan')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -126,7 +127,6 @@ class User(PaginatedAPIMixin, db.Model):
     #     self.permissions = Department.query.get(self.department_id).get("permissions")
 
     def can(self, operate_permission):
-        print("jinru auth")
         #这个方法用来传入一个权限来核实用户是否有这个权限,返回bool值，检查permissions要求的权限角色是否允许
         self.permissions = Department.query.get(self.department_id).get("permissions")
         self.permissions = json.loads(self.permissions)
@@ -318,3 +318,26 @@ class Department(PaginatedAPIMixin, db.Model):
         for field in ['name', 'describe', 'permissions']:
             if field in data:
                 setattr(self, field, data[field])
+
+class Operation(PaginatedAPIMixin, db.Model):
+    __tablename__ = 'operations'
+    id = db.Column(db.Integer, primary_key=True)
+    operator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    describe = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    ip = db.Column(db.Text)
+
+    def from_dict(self, data):
+        for field in ['operator_id', 'describe', 'ip']:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'operator_name': self.operator.username,
+            'timestamp': self.timestamp,
+            'describe': self.describe,
+            'ip': self.ip
+        }
+        return data

@@ -6,7 +6,7 @@ from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from functools import wraps
 from app.utils.code import ResponseCode
 from app.utils.util import ResMsg
-from app.models.model import User, Department
+from app.models.model import User, Department, Operation
 from app.utils.core import db
 
 token_auth = HTTPTokenAuth()
@@ -200,7 +200,7 @@ def token_auth_error():
     res.update(code=ResponseCode.PleaseSignIn)
     return res.data
         
-
+# 用户操作权限检测
 def permission_required(permission):
     '''定义装饰器@permission_required(permission)'''
     def decorator(f):
@@ -208,6 +208,20 @@ def permission_required(permission):
         def decorated_function(*args,**kwargs):
             if not g.current_user.can(permission):                        #如果当前用户不具有permission则抛出403错误。
                 abort(403)
+            return f(*args,**kwargs)
+        return decorated_function
+    return decorator
+
+# 用户操作日志记录
+def record_operation(describe):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args,**kwargs):
+            operation = Operation()
+            operation.from_dict({"operator_id":g.current_user.get("id"),\
+                                "describe":describe, "ip":request.remote_addr})
+            db.session.add(operation)
+            db.session.commit()
             return f(*args,**kwargs)
         return decorated_function
     return decorator
