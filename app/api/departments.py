@@ -28,15 +28,19 @@ def create_department():
 
 @bp.route('/departments/', methods=['GET'])
 @token_auth.login_required
-@permission_required({"hello":"789"})
+@permission_required({"hello":"123"})
 @record_operation("操作了列出部门信息")
 def get_departments():
     '''返回用户集合，分页'''
     page = request.args.get('page', 1, type=int)
+    timestamp = request.args.get('timestamp')
     per_page = min(
         request.args.get(
             'per_page', current_app.config['DEPARTMENTS_PER_PAGE'], type=int), 100)
-    data = Department.to_collection_dict(Department.query, page, per_page, 'api.get_departments')
+    if timestamp == 'descending':
+        query = Department.query.order_by(Department.timestamp.desc())
+    data = Department.to_collection_dict(query, page, per_page, \
+                    'api.get_departments',timestamp=timestamp)
     return ResMsg(data=data).data
 
 

@@ -40,8 +40,10 @@ class User(PaginatedAPIMixin, db.Model):
     email = db.Column(db.String(120), index=True)
     password_hash = db.Column(db.String(128))  # 不保存原始密码
     # about_me = db.Column(db.Text())
-    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
-    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    member_since = db.Column(db.DateTime(), default=datetime.now)
+    # onupdate=datetime.now 修改任何信息，自动修改时间
+    # last_seen = db.Column(db.DateTime(), default=datetime.now, onupdate=datetime.now)
+    last_seen = db.Column(db.DateTime(), default=datetime.now)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     remark = db.Column(db.Text())
     operation = db.relationship('Operation', backref='operator', lazy='dynamic',
@@ -70,8 +72,8 @@ class User(PaginatedAPIMixin, db.Model):
             'name': self.name,
             'email': self.email,
             'remark': self.remark,
-            'location': self.location,
             'department_id': self.department_id,
+            'department_name': self.department.name,
             # 'about_me': self.about_me,
             'member_since': self.member_since.isoformat() + 'Z',
             'last_seen': self.last_seen.isoformat() + 'Z'
@@ -79,7 +81,7 @@ class User(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username', 'email', 'name', 'location', 'department_id', 'remark']:
+        for field in ['username', 'email', 'name', 'department_id', 'remark']:
             if field in data:
                 setattr(self, field, data[field])
         if 'password' in data:
@@ -87,7 +89,7 @@ class User(PaginatedAPIMixin, db.Model):
 
     def ping(self):
         '''更新用户的最后访问时间'''
-        self.last_seen = datetime.utcnow()
+        self.last_seen = datetime.now()
         db.session.add(self)
     
     def get(self, field):
@@ -290,7 +292,7 @@ class Department(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True)
     describe = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     members = db.relationship('User', backref='department', lazy='dynamic',
                                cascade='all, delete-orphan')
     active = db.Column(db.Boolean, default=True)
@@ -324,7 +326,7 @@ class Operation(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     operator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     describe = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     ip = db.Column(db.Text)
 
     def from_dict(self, data):

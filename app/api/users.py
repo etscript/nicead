@@ -34,7 +34,27 @@ def get_users():
     per_page = min(
         request.args.get(
             'per_page', current_app.config['USERS_PER_PAGE'], type=int), 100)
-    data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
+    username = request.args.get('username')
+    name = request.args.get('name')
+    department_id = request.args.get('department_id')
+    member_since = request.args.get('member_since')
+    query = User.query
+    if username and name:
+        query = query.filter(User.username.like("%" + username + "%"),\
+                            User.name.like("%" + name + "%"))
+    elif not username and name:
+        query = query.filter(User.name.like("%" + name + "%"))
+    elif username and not name:
+        query = query.filter(User.username.like("%" + username + "%"))
+    if department_id:
+        query = query.filter(User.department_id == department_id)
+    
+    if member_since == 'descending':
+        query = query.order_by(User.member_since.desc())
+
+    data = User.to_collection_dict(query, page, per_page, \
+            'api.get_users', username=username, name=name, \
+                department_id=department_id, member_since=member_since)
     return ResMsg(data=data).data
 
 
