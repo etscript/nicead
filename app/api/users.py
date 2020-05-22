@@ -12,7 +12,46 @@ from app.models.model import User
 @bp.route('/users/', methods=['POST'])
 @token_auth.login_required
 def create_user():
-    '''注册一个新用户'''
+    """
+    用户注册
+    ---
+    tags:
+      - 用户相关接口
+    description:
+        用户注册接口，json格式
+    parameters:
+      - name: body
+        in: body
+        type: string
+        required: true
+        schema:
+          id: 用户
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+              description: 用户账号.
+            name:
+              type: string
+              description: 用户名字.
+            password:
+              type: string
+              description: 密码.
+            email:
+              type: string
+              description: 邮箱.
+            remark:
+              type: string
+              description: 备注.
+            department_id:
+              type: string
+              description: 部门id.
+    responses:
+      200:
+        description: 
+    """
     data = request.get_json()
     if not data:
         code = ResponseCode.InvalidParameter
@@ -29,7 +68,42 @@ def create_user():
 @bp.route('/users/', methods=['GET'])
 @token_auth.login_required
 def get_users():
-    '''返回用户集合，分页'''
+    """
+    返回用户合集，分页显示
+    ---
+    tags:
+      - 用户相关接口
+    description:
+        用户信息接口，json格式
+    parameters:
+      - name: page
+        in: path
+        type: string
+        description: 第几页
+      - name: per_page
+        in: path
+        type: string
+        description: 每页多少个
+      - name: username
+        in: path
+        type: string
+        description: 用户账号 模糊匹配
+      - name: name
+        in: path
+        type: string
+        description: 用户名字 模糊匹配
+      - name: department_id
+        in: path
+        type: string
+        description: 部门id 
+      - name: member_since
+        in: path
+        type: string
+        description: 用户创建时间升序(不写) 降序descending 
+    responses:
+      200:
+        description: 
+    """
     page = request.args.get('page', 1, type=int)
     per_page = min(
         request.args.get(
@@ -61,7 +135,22 @@ def get_users():
 @bp.route('/users/<int:id>', methods=['GET'])
 @token_auth.login_required
 def get_user(id):
-    '''返回一个用户'''
+    """
+    返回用户具体信息
+    ---
+    tags:
+      - 用户相关接口
+    description:
+        用户信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 用户id
+    responses:
+      200:
+        description: 
+    """
     user = User.query.get_or_404(id)
     # if g.current_user == user:
     #     return jsonify(user.to_dict(include_email=True))
@@ -74,14 +163,56 @@ def get_user(id):
 @bp.route('/users/<int:id>', methods=['PUT'])
 @token_auth.login_required
 def update_user(id):
-    '''修改一个用户'''
+    """
+    更新某个用户
+    ---
+    tags:
+      - 用户相关接口
+    description:
+        用户信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 用户id
+      - name: body
+        in: body
+        type: string
+        required: true
+        schema:
+          id: 用户
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+              description: 用户账号.
+            name:
+              type: string
+              description: 用户名字.
+            password:
+              type: string
+              description: 密码.
+            email:
+              type: string
+              description: 邮箱.
+            remark:
+              type: string
+              description: 备注.
+            department_id:
+              type: string
+              description: 部门id.
+    responses:
+      200:
+        description: 
+    """
     user = User.query.get_or_404(id)
     data = request.get_json()
     if not data:
         code = ResponseCode.InvalidParameter
         return ResMsg(code=code, data='You must post JSON data.').data
-
-    message = {}
+    
     if 'username' in data and not data.get('username', None).strip():
         code = ResponseCode.InvalidParameter
         return ResMsg(code=code, data='Please provide a valid username.').data
@@ -107,7 +238,22 @@ def update_user(id):
 @bp.route('/users/<int:id>', methods=['DELETE'])
 @token_auth.login_required
 def delete_user(id):
-    '''删除一个用户'''
+    """
+    删除某个用户
+    ---
+    tags:
+      - 用户相关接口
+    description:
+        用户信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 用户id
+    responses:
+      200:
+        description: 
+    """
     user = User.query.get_or_404(id)
     # if g.current_user != user:
     #     return error_response(403)

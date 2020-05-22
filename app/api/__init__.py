@@ -3,5 +3,4 @@ from flask import Blueprint
 bp = Blueprint('api', __name__)
 
 # 写在最后是为了防止循环导入，ping.py文件也会导入 bp
-from app.api import api_test, tianyancha, login, order, \
-                    company_items, users, departments, operation
+from app.api import api_test, login, users, departments, operation

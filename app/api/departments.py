@@ -12,7 +12,43 @@ from app.models.model import Department, User
 @bp.route('/departments/', methods=['POST'])
 @token_auth.login_required
 def create_department():
-    '''注册一个新部门'''
+    """
+    部门注册
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门注册接口，json格式
+    parameters:
+      - name: body
+        in: body
+        type: string
+        required: true
+        schema:
+          id: 部门
+          required:
+            - name
+            - describe
+            - members
+            - active
+            - permissions
+          properties:
+            name:
+              type: string
+              description: 部门名称.
+            describe:
+              type: string
+              description: 部门描述.
+            permissions:
+              type: string
+              description: 权限设置.
+            active:
+              type: bool
+              description: 是否启用.
+    responses:
+      200:
+        description: 
+    """
     data = request.get_json()
     if not data:
         code = ResponseCode.InvalidParameter
@@ -29,9 +65,32 @@ def create_department():
 @bp.route('/departments/', methods=['GET'])
 @token_auth.login_required
 @permission_required({"hello":"123"})
-@record_operation("操作了列出部门信息")
+# @record_operation("操作了列出部门信息")
 def get_departments():
-    '''返回用户集合，分页'''
+    """
+    返回部门合集，分页显示
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门信息接口，json格式
+    parameters:
+      - name: page
+        in: path
+        type: string
+        description: 第几页
+      - name: per_page
+        in: path
+        type: string
+        description: 每页多少个
+      - name: timestamp
+        in: path
+        type: string
+        description: 部门创建时间升序(不写) 降序descending
+    responses:
+      200:
+        description: 
+    """
     page = request.args.get('page', 1, type=int)
     timestamp = request.args.get('timestamp')
     per_page = min(
@@ -47,7 +106,22 @@ def get_departments():
 @bp.route('/departments/<int:id>', methods=['GET'])
 @token_auth.login_required
 def get_department(id):
-    '''返回一个部门信息'''
+    """
+    返回部门具体信息
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 部门id
+    responses:
+      200:
+        description: 
+    """
     department = Department.query.get_or_404(id)
     data = department.to_dict()
     return ResMsg(data=data).data
@@ -55,7 +129,22 @@ def get_department(id):
 @bp.route('/departments/<int:id>/members/', methods=['GET'])
 @token_auth.login_required
 def get_department_members(id):
-    '''返回一个部门的成员信息'''
+    """
+    返回部门内用户具体信息
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 部门id
+    responses:
+      200:
+        description: 
+    """
     department = Department.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
@@ -70,7 +159,47 @@ def get_department_members(id):
 @bp.route('/departments/<int:id>', methods=['PUT'])
 @token_auth.login_required
 def update_department(id):
-    '''修改一个部门信息'''
+    """
+    更新某个部门
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 用户id
+      - name: body
+        in: body
+        type: string
+        required: true
+        schema:
+          id: 部门
+          required:
+            - name
+            - describe
+            - members
+            - active
+            - permissions
+          properties:
+            name:
+              type: string
+              description: 部门名称.
+            describe:
+              type: string
+              description: 部门描述.
+            permissions:
+              type: string
+              description: 权限设置.
+            active:
+              type: boolean
+              description: 是否启用.
+    responses:
+      200:
+        description: 
+    """
     department = Department.query.get_or_404(id)
     data = request.get_json()
     if not data:
@@ -84,7 +213,22 @@ def update_department(id):
 @bp.route('/departments/<int:id>', methods=['DELETE'])
 @token_auth.login_required
 def delete_department(id):
-    '''删除一个用户'''
+    """
+    删除某个部门
+    ---
+    tags:
+      - 部门相关接口
+    description:
+        部门信息接口
+    parameters:
+      - name: id
+        in: path
+        type: int
+        description: 用户id
+    responses:
+      200:
+        description: 
+    """
     department = Department.query.get_or_404(id)
     # if g.current_user != user:
     #     return error_response(403)

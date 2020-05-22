@@ -32,7 +32,7 @@ def create_app(config_name, config_path=None):
     swagger_config['title'] = app.config["SWAGGER_TITLE"]    # 配置大标题
     swagger_config['description'] = app.config["SWAGGER_DESC"]    # 配置公共描述内容
     swagger_config['host'] = app.config["SWAGGER_HOST"]    # 请求域名
-    
+    Swagger(app, config=swagger_config)
 
     # 更新Celery配置信息
     celery_conf = "redis://{}:{}/{}".format(app.config['REDIS_HOST'], app.config['REDIS_PORT'], app.config['REDIS_DB'])
@@ -158,5 +158,3 @@ def scheduler_init(app):
                 pass
 
         atexit.register(_unlock_file)
-
-from app.models.model import UserLoginMethod

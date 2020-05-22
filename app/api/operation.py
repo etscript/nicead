@@ -14,7 +14,34 @@ from app.models.model import Operation, User
 @permission_required({"hello":"123"})
 # @record_operation("请求了列出日志信息操作")
 def get_operation():
-    '''返回用户集合，分页'''
+    """
+    返回用户合集，分页显示
+    ---
+    tags:
+      - 操作日志接口
+    description:
+        操作日志接口，json格式
+    parameters:
+      - name: page
+        in: path
+        type: string
+        description: 第几页
+      - name: per_page
+        in: path
+        type: string
+        description: 每页多少个
+      - name: timestamp
+        in: path
+        type: string
+        description: 日期匹配 日期格式如:2020-05-22
+      - name: operator_id
+        in: path
+        type: string
+        description: 用户id
+    responses:
+      200:
+        description: 
+    """
     page = request.args.get('page', 1, type=int)
     per_page = min(
         request.args.get(
