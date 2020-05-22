@@ -246,10 +246,7 @@ def delete_user(id):
     description:
         用户信息接口
     parameters:
-      - name: id
-        in: path
-        type: int
-        description: 用户id
+      - id: url中的id是用户的id
     responses:
       200:
         description: 
