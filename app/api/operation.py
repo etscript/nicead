@@ -24,11 +24,11 @@ def get_operation():
     parameters:
       - name: page
         in: path
-        type: string
+        type: integer
         description: 第几页
       - name: per_page
         in: path
-        type: string
+        type: integer
         description: 每页多少个
       - name: timestamp
         in: path
@@ -36,7 +36,7 @@ def get_operation():
         description: 日期匹配 日期格式如:2020-05-22
       - name: operator_id
         in: path
-        type: string
+        type: integer
         description: 用户id
     responses:
       200:

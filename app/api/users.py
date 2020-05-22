@@ -47,7 +47,7 @@ def create_user():
               type: string
               description: 备注.
             department_id:
-              type: string
+              type: integer
               description: 部门id.
     responses:
       200:
@@ -75,15 +75,15 @@ def get_users():
     tags:
       - 用户相关接口
     description:
-        用户信息接口，json格式
+        用户信息接口
     parameters:
       - name: page
         in: path
-        type: string
+        type: integer
         description: 第几页
       - name: per_page
         in: path
-        type: string
+        type: integer
         description: 每页多少个
       - name: username
         in: path
@@ -95,7 +95,7 @@ def get_users():
         description: 用户名字 模糊匹配
       - name: department_id
         in: path
-        type: string
+        type: integer
         description: 部门id 
       - name: member_since
         in: path
@@ -146,7 +146,7 @@ def get_user(id):
     parameters:
       - name: id
         in: path
-        type: int
+        type: integer
         description: 用户id
     responses:
       200:
@@ -174,7 +174,7 @@ def update_user(id):
     parameters:
       - name: id
         in: path
-        type: int
+        type: integer
         description: 用户id
       - name: body
         in: body
@@ -202,7 +202,7 @@ def update_user(id):
               type: string
               description: 备注.
             department_id:
-              type: string
+              type: integer
               description: 部门id.
     responses:
       200:
@@ -247,7 +247,10 @@ def delete_user(id):
     description:
         用户信息接口
     parameters:
-      - id: url中的id是用户的id
+      - name: id
+        in: path
+        type: integer
+        description: 用户id
     responses:
       200:
         description: 

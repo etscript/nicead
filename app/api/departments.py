@@ -75,11 +75,11 @@ def get_departments():
     parameters:
       - name: page
         in: path
-        type: string
+        type: integer
         description: 第几页
       - name: per_page
         in: path
-        type: string
+        type: integer
         description: 每页多少个
       - name: timestamp
         in: path
@@ -94,8 +94,9 @@ def get_departments():
     per_page = min(
         request.args.get(
             'per_page', current_app.config['DEPARTMENTS_PER_PAGE'], type=int), 100)
+    query = Department.query
     if timestamp == 'descending':
-        query = Department.query.order_by(Department.timestamp.desc())
+        query = query.order_by(Department.timestamp.desc())
     data = Department.to_collection_dict(query, page, per_page, \
                     'api.get_departments',timestamp=timestamp)
     return ResMsg(data=data).data
@@ -114,7 +115,7 @@ def get_department(id):
     parameters:
       - name: id
         in: path
-        type: int
+        type: integer
         description: 部门id
     responses:
       200:
@@ -137,7 +138,7 @@ def get_department_members(id):
     parameters:
       - name: id
         in: path
-        type: int
+        type: integer
         description: 部门id
     responses:
       200:
@@ -167,7 +168,7 @@ def update_department(id):
     parameters:
       - name: id
         in: path
-        type: int
+        type: integer
         description: 用户id
       - name: body
         in: body
@@ -221,8 +222,8 @@ def delete_department(id):
     parameters:
       - name: id
         in: path
-        type: int
-        description: 用户id
+        type: integer
+        description: 部门id
     responses:
       200:
         description: 
