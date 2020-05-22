@@ -20,10 +20,29 @@ def create_department():
     description:
         部门注册接口，json格式
     parameters:
-      - name: 销售部
-        describe: 销售部
-        permissions: {"部门":"修改"}
-        active: true
+      - name: body
+        description: 部门注册接口的body数据
+        in: body
+        type: object
+        required: true
+        schema:
+          id: 部门
+          required:
+            - username
+            - password
+          properties:
+            name:
+              type: string
+              description: 部门名字, 如销售部.
+            describe:
+              type: string
+              description: 部门描述, 如销售部.
+            permissions:
+              type: string
+              description: 权限, 如{"部门":"修改"}.
+            active:
+              type: boolean
+              description: 是否使用, 如true.
     responses:
       200:
         description: 

@@ -21,8 +21,9 @@ def create_user():
         用户注册接口，json格式
     parameters:
       - name: body
+        description: 用户注册接口的body数据
         in: body
-        type: string
+        type: object
         required: true
         schema:
           id: 用户
