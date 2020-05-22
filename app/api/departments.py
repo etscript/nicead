@@ -171,6 +171,7 @@ def update_department(id):
         type: integer
         description: 用户id
       - name: body
+        description: 部门的数据格式
         in: body
         type: string
         required: true

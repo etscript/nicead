@@ -177,6 +177,7 @@ def update_user(id):
         type: integer
         description: 用户id
       - name: body
+        description: 用户数据格式
         in: body
         type: string
         required: true
