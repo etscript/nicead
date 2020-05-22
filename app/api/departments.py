@@ -22,29 +22,13 @@ def create_department():
     parameters:
       - name: body
         in: body
-        type: string
+        type: object
         required: true
-        schema:
-          id: 部门
-          required:
-            - name
-            - describe
-            - members
-            - active
-            - permissions
-          properties:
-            name:
-              type: string
-              description: 部门名称.
-            describe:
-              type: string
-              description: 部门描述.
-            permissions:
-              type: string
-              description: 权限设置.
-            active:
-              type: bool
-              description: 是否启用.
+        body:
+            name: 销售部
+            describe: 销售部
+            permissions: {"部门":"修改"}
+            active: true
     responses:
       200:
         description: 
