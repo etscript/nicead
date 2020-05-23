@@ -130,7 +130,10 @@ class User(PaginatedAPIMixin, db.Model):
 
     def can(self, operate_permission):
         #这个方法用来传入一个权限来核实用户是否有这个权限,返回bool值，检查permissions要求的权限角色是否允许
-        self.permissions = Department.query.get(self.department_id).get("permissions")
+        d = Department.query.get(self.department_id)
+        if not d.get("active"):
+            return False
+        self.permissions = d.get("permissions")
         self.permissions = json.loads(self.permissions)
         (op_key, op_val), = operate_permission.items()
         return op_val in self.permissions[op_key]

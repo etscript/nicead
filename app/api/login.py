@@ -24,7 +24,7 @@ def login():
         type: string
         required: true
         schema:
-          id: 用户
+          id: 用户登录
           required:
             - username
             - password
@@ -34,7 +34,7 @@ def login():
               description: 用户名.
             password:
               type: string
-              description: 加密过的密码.
+              description: 未加密过的密码.
     responses:
       200:
         description: 
@@ -45,6 +45,11 @@ def login():
     if not data:
         code = ResponseCode.InvalidParameter
         return ResMsg(code = code, data = '没有收到账号密码').data
+    user = User.query.filter_by(username=data["username"]).first()
+    if not user:
+        code = ResponseCode.InvalidParameter
+        return ResMsg(code = code, data = '没有这个账号').data
+    
     user = User.query.filter_by(username=data["username"]).first()
     is_validate = user.check_password(data["password"])
     if not is_validate:

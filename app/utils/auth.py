@@ -207,7 +207,7 @@ def permission_required(permission):
         @wraps(f)
         def decorated_function(*args,**kwargs):
             if not g.current_user.can(permission):                        #如果当前用户不具有permission则抛出403错误。
-                abort(403)
+                abort(403, "你没有权限进行这次的操作")
             return f(*args,**kwargs)
         return decorated_function
     return decorator
